@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const tag = await Tags.findByPk(req.params.id, {
+  const tag = await Tag.findByPk(req.params.id, {
     include: [{
       model: Product
     }]
@@ -29,10 +29,10 @@ router.post('/', (req, res) => {
   Tag.create(req.body)
     .then((tag) => {
       if (req.body.productIds.length) {
-        const productTagIdArr = req.body.productIds.map((tag_id) => {
+        const productTagIdArr = req.body.productIds.map((product_id) => {
           return {
-            tag_id: tag.id,
             product_id,
+            tag_id: tag.id
           };
         });
         return ProductTag.bulkCreate(productTagIdArr);
